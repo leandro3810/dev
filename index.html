@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leandro Dev | Landing Page</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="nav">
+        <span class="brand">Leandro Dev</span>
+        <div class="nav-links">
+          <a href="#portfolio">Portfólio</a>
+          <a href="#servicos">Serviços</a>
+          <a href="/login">Login</a>
+          <a href="/contato">Contato</a>
+        </div>
+      </nav>
+      <section class="hero-content">
+        <p class="eyebrow">Landing page + portfólio + API + deploy</p>
+        <h1>Desenvolvimento web com foco em velocidade, clareza e entrega.</h1>
+        <p class="lead">
+          Projeto base com apresentação profissional, rotas úteis, formulário de contato
+          e pipeline pronto para CI/CD.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#portfolio">Ver projetos</a>
+          <a class="button secondary" href="/api/profile">Testar API</a>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="portfolio" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Portfólio</p>
+          <h2>Projetos em destaque</h2>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Site institucional</h3>
+            <p>Estrutura de conversão com visual limpo e responsivo.</p>
+          </article>
+          <article class="card">
+            <h3>API Node.js</h3>
+            <p>Endpoints simples para perfil, login demonstrativo e contato.</p>
+          </article>
+          <article class="card">
+            <h3>Deploy automatizado</h3>
+            <p>Pipeline validando instalação, build, testes e deploy opcional.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="servicos" class="section accent">
+        <div class="section-heading">
+          <p class="eyebrow">Soluções</p>
+          <h2>O que este repositório já entrega</h2>
+        </div>
+        <ul class="feature-list">
+          <li>Landing page pronta para personalização</li>
+          <li>Área de login demonstrativa</li>
+          <li>Página dedicada de contato</li>
+          <li>API REST simples em Express</li>
+          <li>Workflow GitHub Actions preparado para CI/CD</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
