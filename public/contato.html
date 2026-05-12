@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contato | Leandro Dev</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page-shell">
+    <main class="panel">
+      <a class="text-link" href="/">← Voltar</a>
+      <p class="eyebrow">Contato</p>
+      <h1>Vamos conversar sobre seu projeto</h1>
+      <p class="lead">
+        Esta página envia os dados para a API interna do projeto usando validação básica.
+      </p>
+
+      <form id="contact-form" class="stack">
+        <label>
+          Nome
+          <input type="text" name="name" placeholder="Seu nome" required minlength="2" />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" placeholder="voce@exemplo.com" required />
+        </label>
+        <label>
+          Mensagem
+          <textarea name="message" rows="5" placeholder="Conte um pouco do que você precisa." required minlength="10"></textarea>
+        </label>
+        <button class="button primary" type="submit">Enviar mensagem</button>
+      </form>
+
+      <p id="contact-feedback" class="feedback" aria-live="polite"></p>
+    </main>
+
+    <script>
+      const form = document.getElementById('contact-form');
+      const feedback = document.getElementById('contact-feedback');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        feedback.textContent = 'Enviando...';
+
+        const payload = Object.fromEntries(new FormData(form).entries());
+
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+        feedback.textContent = response.ok ? data.message : data.error;
+      });
+    </script>
+  </body>
+</html>

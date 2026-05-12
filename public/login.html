@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Leandro Dev</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page-shell">
+    <main class="panel">
+      <a class="text-link" href="/">← Voltar</a>
+      <p class="eyebrow">Login</p>
+      <h1>Acesso demonstrativo</h1>
+      <p class="lead">Use qualquer email válido e uma senha com pelo menos 6 caracteres.</p>
+
+      <form id="login-form" class="stack">
+        <label>
+          Email
+          <input type="email" name="email" placeholder="voce@exemplo.com" required />
+        </label>
+        <label>
+          Senha
+          <input type="password" name="password" placeholder="******" required minlength="6" />
+        </label>
+        <button class="button primary" type="submit">Entrar</button>
+      </form>
+
+      <p id="login-feedback" class="feedback" aria-live="polite"></p>
+    </main>
+
+    <script>
+      const form = document.getElementById('login-form');
+      const feedback = document.getElementById('login-feedback');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        feedback.textContent = 'Enviando...';
+
+        const payload = Object.fromEntries(new FormData(form).entries());
+
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+        feedback.textContent = response.ok ? data.message : data.error;
+      });
+    </script>
+  </body>
+</html>
