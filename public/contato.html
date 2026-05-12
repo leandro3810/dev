@@ -35,13 +35,14 @@
     </main>
 
     <script>
+      const FEEDBACK_DELAY_MS = 150;
       const form = document.getElementById('contact-form');
       const feedback = document.getElementById('contact-feedback');
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         feedback.textContent = 'Enviando...';
-        await new Promise((resolve) => setTimeout(resolve, 150));
+        await new Promise((resolve) => setTimeout(resolve, FEEDBACK_DELAY_MS));
 
         const payload = Object.fromEntries(new FormData(form).entries());
 

@@ -3,7 +3,7 @@ const path = require('path');
 
 const app = express();
 const publicDir = path.join(__dirname, '..', 'public');
-const emailHasBasicFormat = (value) => {
+const hasValidEmailFormat = (value) => {
   if (!value || value.includes(' ')) {
     return false;
   }
@@ -63,7 +63,7 @@ app.post('/api/login', (request, response) => {
     return response.status(400).json({ error: 'Informe email e senha.' });
   }
 
-  if (!emailHasBasicFormat(email)) {
+  if (!hasValidEmailFormat(email)) {
     return response.status(400).json({ error: 'Informe um email válido.' });
   }
 
@@ -91,7 +91,7 @@ app.post('/api/contact', (request, response) => {
     return response.status(400).json({ error: 'O nome deve ter entre 2 e 80 caracteres.' });
   }
 
-  if (!emailHasBasicFormat(email)) {
+  if (!hasValidEmailFormat(email)) {
     return response.status(400).json({ error: 'Informe um email válido.' });
   }
 
