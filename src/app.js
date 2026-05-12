@@ -3,6 +3,16 @@ const path = require('path');
 
 const app = express();
 const publicDir = path.join(__dirname, '..', 'public');
+const emailHasBasicFormat = (value) => {
+  if (!value || value.includes(' ')) {
+    return false;
+  }
+
+  const atIndex = value.indexOf('@');
+  const dotIndex = value.lastIndexOf('.');
+
+  return atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < value.length - 1;
+};
 
 const profile = {
   name: 'Leandro Dev',
@@ -34,11 +44,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicDir));
 
 app.get('/login', (_request, response) => {
-  response.sendFile(path.join(publicDir, 'login.html'));
+  response.redirect('/login.html');
 });
 
 app.get('/contato', (_request, response) => {
-  response.sendFile(path.join(publicDir, 'contato.html'));
+  response.redirect('/contato.html');
 });
 
 app.get('/api/profile', (_request, response) => {
@@ -53,7 +63,7 @@ app.post('/api/login', (request, response) => {
     return response.status(400).json({ error: 'Informe email e senha.' });
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!emailHasBasicFormat(email)) {
     return response.status(400).json({ error: 'Informe um email válido.' });
   }
 
@@ -81,7 +91,7 @@ app.post('/api/contact', (request, response) => {
     return response.status(400).json({ error: 'O nome deve ter entre 2 e 80 caracteres.' });
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!emailHasBasicFormat(email)) {
     return response.status(400).json({ error: 'Informe um email válido.' });
   }
 

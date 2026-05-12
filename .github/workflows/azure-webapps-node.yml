@@ -43,7 +43,7 @@ jobs:
         path: release
 
   deploy:
-    if: ${{ env.AZURE_WEBAPP_NAME != 'your-app-name' && secrets.AZURE_WEBAPP_PUBLISH_PROFILE != '' }}
+    if: ${{ env.AZURE_WEBAPP_NAME != 'your-app-name' && secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
     permissions:
       contents: none
     runs-on: ubuntu-latest
