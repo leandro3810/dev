@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Leandro Dev</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.3);
+    }
+    .card h1 { font-size: 1.6rem; color: #0f3460; margin-bottom: 8px; }
+    .card p  { color: #777; font-size: .9rem; margin-bottom: 28px; }
+    label { display: block; font-size: .85rem; font-weight: 600; color: #555; margin-bottom: 6px; }
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input:focus { border-color: #0f3460; }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #e94560;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    button:hover { opacity: .85; }
+    .msg {
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: .9rem;
+      display: none;
+    }
+    .msg.success { background: #d4edda; color: #155724; display: block; }
+    .msg.error   { background: #f8d7da; color: #721c24; display: block; }
+    .back { display: block; text-align: center; margin-top: 20px; color: #0f3460; font-size: .9rem; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    .hint { font-size: .78rem; color: #aaa; margin-top: -12px; margin-bottom: 18px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Acesso Restrito</h1>
+    <p>Tela de login demonstrativa &mdash; use <strong>admin / admin</strong></p>
+    <form id="login-form">
+      <label for="username">Usuário</label>
+      <input type="text" id="username" name="username" placeholder="admin" autocomplete="username" />
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" placeholder="••••••" autocomplete="current-password" />
+      <p class="hint">Dica: admin / admin</p>
+      <button type="submit">Entrar</button>
+    </form>
+    <div class="msg" id="msg"></div>
+    <a href="/" class="back">← Voltar para o início</a>
+  </div>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      msg.className = 'msg';
+      msg.textContent = '';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        msg.className = 'msg ' + (data.success ? 'success' : 'error');
+        msg.textContent = data.message;
+      } catch (err) {
+        msg.className = 'msg error';
+        msg.textContent = 'Erro ao conectar com o servidor.';
+      }
+    });
+  </script>
+</body>
+</html>

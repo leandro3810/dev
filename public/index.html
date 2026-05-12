@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leandro Dev</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1a1a2e; }
+
+    /* Hero */
+    header {
+      background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    header h1 { font-size: 3rem; margin-bottom: 12px; }
+    header p  { font-size: 1.2rem; opacity: .85; margin-bottom: 28px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #e94560;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 6px;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #fff;
+    }
+
+    /* About */
+    .about {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .about img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e0e0e0;
+    }
+    .about div { flex: 1; min-width: 240px; }
+    .about h2 { font-size: 1.8rem; margin-bottom: 10px; color: #0f3460; }
+    .about p  { line-height: 1.7; color: #444; }
+
+    /* Skills */
+    .skills-section {
+      background: #f4f7fc;
+      padding: 50px 20px;
+      text-align: center;
+    }
+    .skills-section h2 { font-size: 1.8rem; margin-bottom: 30px; color: #0f3460; }
+    .skills { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .skill-tag {
+      background: #0f3460;
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: .95rem;
+    }
+
+    /* Portfolio */
+    #portfolio {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    #portfolio h2 { font-size: 1.8rem; margin-bottom: 30px; color: #0f3460; text-align: center; }
+    .cards { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+    .card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 24px;
+      width: 280px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      transition: transform .2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card h3 { color: #0f3460; margin-bottom: 10px; }
+    .card p  { color: #555; font-size: .95rem; line-height: 1.6; }
+
+    /* Footer */
+    footer {
+      background: #0f3460;
+      color: #ccc;
+      text-align: center;
+      padding: 24px 20px;
+      font-size: .9rem;
+    }
+    footer a { color: #e94560; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Leandro Dev</h1>
+    <p>Desenvolvedor Full Stack apaixonado por tecnologia e soluções criativas</p>
+    <a href="#portfolio" class="btn">Ver Portfólio</a>
+    <a href="/contato"   class="btn btn-outline">Fale Comigo</a>
+  </header>
+
+  <section class="about">
+    <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" style="border-radius:50%">
+      <rect width="160" height="160" fill="#e0e0e0"/>
+      <circle cx="80" cy="60" r="32" fill="#aaa"/>
+      <ellipse cx="80" cy="140" rx="54" ry="40" fill="#aaa"/>
+    </svg>
+    <div>
+      <h2>Sobre Mim</h2>
+      <p>
+        Olá! Sou Leandro, desenvolvedor com foco em aplicações web modernas usando Node.js, Express e JavaScript.
+        Gosto de construir projetos do zero, aprender novas tecnologias e transformar ideias em produtos reais.
+      </p>
+    </div>
+  </section>
+
+  <section class="skills-section">
+    <h2>Habilidades</h2>
+    <div class="skills" id="skills-list"></div>
+  </section>
+
+  <section id="portfolio">
+    <h2>Portfólio</h2>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <footer>
+    <p>
+      &copy; 2024 Leandro Dev &nbsp;|&nbsp;
+      <a href="/login">Login</a> &nbsp;|&nbsp;
+      <a href="/contato">Contato</a>
+    </p>
+  </footer>
+
+  <script>
+    fetch('/api/profile')
+      .then(r => r.json())
+      .then(data => {
+        const skillsList = document.getElementById('skills-list');
+        data.skills.forEach(s => {
+          const tag = document.createElement('span');
+          tag.className = 'skill-tag';
+          tag.textContent = s;
+          skillsList.appendChild(tag);
+        });
+
+        const cards = document.getElementById('cards');
+        data.projects.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `<h3>${p.title}</h3><p>${p.description}</p>`;
+          cards.appendChild(card);
+        });
+      });
+  </script>
+</body>
+</html>

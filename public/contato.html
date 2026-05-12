@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato – Leandro Dev</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #0f3460;
+      color: #fff;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header a { color: #e94560; text-decoration: none; font-weight: 600; }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+    .card h1 { font-size: 1.8rem; color: #0f3460; margin-bottom: 8px; }
+    .card p.sub { color: #777; font-size: .95rem; margin-bottom: 28px; }
+    label { display: block; font-size: .85rem; font-weight: 600; color: #555; margin-bottom: 6px; }
+    input[type=text], input[type=email], textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+    input:focus, textarea:focus { border-color: #0f3460; }
+    textarea { resize: vertical; min-height: 120px; }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #0f3460;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    button:hover { background: #e94560; }
+    .msg {
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: .9rem;
+      display: none;
+    }
+    .msg.success { background: #d4edda; color: #155724; display: block; }
+    .msg.error   { background: #f8d7da; color: #721c24; display: block; }
+    footer {
+      background: #0f3460;
+      color: #ccc;
+      text-align: center;
+      padding: 16px 20px;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span>Leandro Dev</span>
+    <a href="/">← Voltar</a>
+  </header>
+
+  <main>
+    <div class="card">
+      <h1>Fale Comigo</h1>
+      <p class="sub">Envie uma mensagem e entrarei em contato em breve.</p>
+      <form id="contact-form">
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="name" placeholder="Seu nome" required />
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+        <label for="message">Mensagem</label>
+        <textarea id="message" name="message" placeholder="Escreva sua mensagem..." required></textarea>
+        <button type="submit">Enviar Mensagem</button>
+      </form>
+      <div class="msg" id="msg"></div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2024 Leandro Dev
+  </footer>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      msg.className = 'msg';
+      msg.textContent = '';
+
+      const name    = document.getElementById('name').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        });
+        const data = await res.json();
+        msg.className = 'msg ' + (data.success ? 'success' : 'error');
+        msg.textContent = data.message;
+        if (data.success) e.target.reset();
+      } catch (err) {
+        msg.className = 'msg error';
+        msg.textContent = 'Erro ao enviar a mensagem.';
+      }
+    });
+  </script>
+</body>
+</html>
