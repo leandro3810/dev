@@ -1,15 +1,30 @@
-# What is this?
+# Leandro Dev
 
-The github.dev web-based editor is a lightweight editing experience that runs entirely in your browser. You can navigate files and source code repositories from GitHub, and make and commit code changes.
+Projeto base em Node.js com:
 
-There are two ways to go directly to a VS Code environment in your browser and start coding:
+- landing page profissional
+- seção de portfólio
+- tela de login demonstrativa
+- página de contato
+- API simples em Express
+- workflow GitHub Actions com CI e deploy opcional no Azure
 
-* Press the . key on any repository or pull request.
-* Swap `.com` with `.dev` in the URL. For example, this repo https://github.com/github/dev becomes http://github.dev/github/dev
+## Como executar
 
-Preview the gif below to get a quick demo of github.dev in action.
+```bash
+npm install
+npm run build
+npm test
+npm start
+```
 
-![github dev](https://user-images.githubusercontent.com/856858/130119109-4769f2d7-9027-4bc4-a38c-10f297499e8f.gif)
+O servidor sobe por padrão em `http://localhost:3000`.
 
-# Why?
-It’s a quick way to edit and navigate code. It's especially useful if you want to edit multiple files at a time or take advantage of all the powerful code editing features of Visual Studio Code when making a quick change. For more information, see our [documentation](https://github.co/codespaces-editor-help).
+## Rotas principais
+
+- `/` landing page e portfólio
+- `/login` tela de login
+- `/contato` página de contato
+- `/api/profile` dados do perfil
+- `/api/login` login demonstrativo
+- `/api/contact` envio de contato
