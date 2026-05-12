@@ -35,16 +35,28 @@ test('returns the profile API payload', async () => {
   assert.equal(Array.isArray(body.projects), true);
 });
 
-test('validates login payloads', async () => {
+test('rejects login with invalid email', async () => {
   const response = await fetch(`${baseUrl}/api/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'invalido', password: '123' }),
+    body: JSON.stringify({ email: 'invalido', password: '123456' }),
   });
   const body = await response.json();
 
   assert.equal(response.status, 400);
-  assert.match(body.error, /email válido|senha/);
+  assert.match(body.error, /email válido/);
+});
+
+test('rejects login with short password', async () => {
+  const response = await fetch(`${baseUrl}/api/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'leandro@example.com', password: '123' }),
+  });
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.match(body.error, /6 caracteres/);
 });
 
 test('accepts valid contact submissions', async () => {
