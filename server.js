@@ -36,6 +36,8 @@ app.get('/api/profile', (req, res) => {
   });
 });
 
+// Demo login – credentials are intentionally hardcoded for demonstration purposes only.
+// Do NOT use this pattern in a production application.
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
   if (username === 'admin' && password === 'admin') {
