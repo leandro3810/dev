@@ -3,6 +3,7 @@ const path = require('path');
 
 const app = express();
 const publicDir = path.join(__dirname, '..', 'public');
+const asTrimmedString = (value) => (typeof value === 'string' ? value.trim() : '');
 const hasValidEmailFormat = (value) => {
   if (!value || value.includes(' ')) {
     return false;
@@ -56,8 +57,8 @@ app.get('/api/profile', (_request, response) => {
 });
 
 app.post('/api/login', (request, response) => {
-  const email = `${request.body.email || ''}`.trim().toLowerCase();
-  const password = `${request.body.password || ''}`;
+  const email = asTrimmedString(request.body.email).toLowerCase();
+  const password = typeof request.body.password === 'string' ? request.body.password : '';
 
   if (!email || !password) {
     return response.status(400).json({ error: 'Informe email e senha.' });
@@ -79,9 +80,9 @@ app.post('/api/login', (request, response) => {
 });
 
 app.post('/api/contact', (request, response) => {
-  const name = `${request.body.name || ''}`.trim();
-  const email = `${request.body.email || ''}`.trim().toLowerCase();
-  const message = `${request.body.message || ''}`.trim();
+  const name = asTrimmedString(request.body.name);
+  const email = asTrimmedString(request.body.email).toLowerCase();
+  const message = asTrimmedString(request.body.message);
 
   if (!name || !email || !message) {
     return response.status(400).json({ error: 'Preencha nome, email e mensagem.' });
